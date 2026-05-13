@@ -48,8 +48,12 @@ AWS Lambda (Python backend)
 ## 🔍 Detection Engine
 
 ### 1. Sender Analysis
-- Detects brand impersonation: sender name claims to be "PayPal" but email domain is `paypal-security-update.com`
-- Flags free email providers (Gmail, Yahoo, etc.) used for official-sounding roles
+- **Brand impersonation detection** using a general domain-segment algorithm: checks if the brand name appears as a clean, standalone segment in the sender's domain (between dots). For example:
+  - `mail.amazon.jobs` → `['mail', 'amazon', 'jobs']` → ✅ `amazon` is a clean segment → **Legit**
+  - `paypal-security-update.com` → `['paypal-security-update', 'com']` → ❌ `paypal` is inside a hyphenated segment → **Flagged**
+  - Covered brands: PayPal, Apple, Microsoft, Google, Amazon, Netflix, Facebook, Instagram, WhatsApp, LinkedIn, Twitter, Dropbox, DocuSign
+  - **Penalty: +40 points**
+- Flags free email providers (Gmail, Yahoo, etc.) used for official-sounding roles (e.g. "IT Support" sending from `@gmail.com`)
 - Detects mismatches between display name and actual email domain
 
 ### 2. Security Header Analysis (SPF / DKIM / DMARC)
