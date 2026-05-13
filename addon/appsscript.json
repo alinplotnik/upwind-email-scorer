@@ -7,13 +7,14 @@
         "https://www.googleapis.com/auth/gmail.addons.execute",
         "https://www.googleapis.com/auth/gmail.addons.current.message.readonly",
         "https://www.googleapis.com/auth/script.external_request",
-        "https://www.googleapis.com/auth/script.locale"
+        "https://www.googleapis.com/auth/script.locale",
+        "https://www.googleapis.com/auth/userinfo.email"
     ],
     "addOns": {
         "common": {
             "name": "Upwind Email Scorer",
-            "logoUrl": "https://www.gstatic.com/images/icons/material/system/1x/security_black_48dp.png",
-            "useLocaleFromApp": true
+            "logoUrl": "https://raw.githubusercontent.com/alinplotnik/upwind-email-scorer/refs/heads/main/upwind.jpg",
+            "useLocaleFromApp": false
         },
         "gmail": {
             "contextualTriggers": [

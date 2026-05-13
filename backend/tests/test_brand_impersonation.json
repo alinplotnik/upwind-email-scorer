@@ -1,0 +1,3 @@
+{
+  "body": "{\"sender\": \"PayPal Support <support@paypal-security-update.com>\", \"subject\": \"Your account has been suspended\", \"content\": \"Dear member,\\n\\nWe noticed suspicious login attempts. Your account is currently suspended. Click here to login and validate your account.\", \"content_html\": \"<p>Dear member,</p><p>We noticed suspicious login attempts. Your account is currently suspended. <a href=\\\"http://paypal-security-update.com/login\\\">Click here to login and validate your account.</a></p>\", \"user_email\": \"testuser@gmail.com\", \"email_date\": \"Tue May 13 2026 22:00:00 GMT+0300\", \"auth_results\": \"spf=pass dkim=pass dmarc=pass\", \"attachment_hashes\": []}"
+}
