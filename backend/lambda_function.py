@@ -97,22 +97,19 @@ def lambda_handler(event, context):
             # Check for suspicious sender names (impersonation check)
             is_impersonation = False
             
-            # 1. Exact Brand Domain Matching
-            brand_domains = {
-                "paypal": ["paypal.com"],
-                "apple": ["apple.com"],
-                "microsoft": ["microsoft.com"],
-                "google": ["google.com"],
-                "amazon": ["amazon.com"],
-                "netflix": ["netflix.com"]
-            }
+            # 1. Brand Impersonation Check
+            # General rule: the brand is "real" if it appears as a clean, standalone segment
+            # of the domain (between dots). e.g. mail.amazon.jobs -> ['mail','amazon','jobs'] -> OK
+            # But paypal-security-update.com -> ['paypal-security-update','com'] -> FAKE
+            brands = ["paypal", "apple", "microsoft", "google", "amazon", "netflix", "facebook", "instagram", "whatsapp", "linkedin", "twitter", "dropbox", "docusign"]
             
             email_domain = email_address.split('@')[-1] if '@' in email_address else ""
+            domain_segments = email_domain.split('.')
             
-            for brand, allowed_domains in brand_domains.items():
-                if brand in sender_name:
-                    # It must be exactly "paypal.com" or a subdomain like "mail.paypal.com"
-                    is_valid_domain = any(email_domain == domain or email_domain.endswith("." + domain) for domain in allowed_domains)
+            for brand in brands:
+                if brand in sender_name.lower():
+                    # Check if brand is a clean standalone segment in the domain
+                    is_valid_domain = brand in domain_segments
                     if not is_valid_domain:
                         is_impersonation = True
                         score += 40
@@ -290,7 +287,7 @@ def lambda_handler(event, context):
                             continue
                             
                     # 2. Brand mismatch (Display text says "Apple" but link goes elsewhere)
-                    for brand in brand_domains.keys():
+                    for brand in brands:
                         if brand in clean_text and href_domain_clean and brand not in href_domain_clean:
                             score += 40
                             reasons_found.append(f"Contains a deceptive '{brand.capitalize()}' link pointing to an unrelated site ({href_domain_clean}).")
